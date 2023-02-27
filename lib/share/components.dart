@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plant_app/screens/details_screen.dart';
-import 'package:plant_app/screens/home_screen.dart';
 import 'package:plant_app/share/constants.dart';
 
 // widgets for Home Screen
@@ -244,7 +243,7 @@ Widget recommendPlantCard(
                     children: [
                       TextSpan(
                           text: "$title\n".toUpperCase(),
-                          style: Theme.of(context).textTheme.button),
+                          style: Theme.of(context).textTheme.bodyMedium),
                       TextSpan(
                         text: "$country".toUpperCase(),
                         style: TextStyle(
@@ -272,19 +271,22 @@ Widget recommendPlantCard(
 }
 
 // f- Features Plants items widget
-Widget featuredPlants(context) => Row(
-  children: [
-    featurePlantCard(
-      context,
-      image: "assets/images/bottom_img_1.png",
-      press: () {},
-    ),
-    featurePlantCard(
-      context,
-      image: "assets/images/bottom_img_2.png",
-      press: () {},
-    ),
-  ],
+Widget featuredPlants(context) => SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: Row(
+    children: [
+      featurePlantCard(
+        context,
+        image: "assets/images/bottom_img_1.png",
+        press: () {},
+      ),
+      featurePlantCard(
+        context,
+        image: "assets/images/bottom_img_2.png",
+        press: () {},
+      ),
+    ],
+  ),
 );
 
 // g- Features Plants item card widget
