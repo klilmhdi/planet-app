@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Plant App',
       theme: ThemeData(
         useMaterial3: true,
+        appBarTheme: AppBarTheme(color: primaryColor),
         scaffoldBackgroundColor: backgroundColor,
         primaryColor: primaryColor,
         textTheme: Theme

@@ -56,7 +56,7 @@ Widget titleWithMoreBtn({required String title, required Function press}) =>
       ),
     );
 
-// b- Title in underline
+// b- Title in underline for header in Recommended & Featured Plants
 Widget titleWithCustomUnderline({required String text}) => Container(
       height: 24,
       child: Stack(
@@ -82,7 +82,7 @@ Widget titleWithCustomUnderline({required String text}) => Container(
       ),
     );
 
-// c- Header with search box
+// c- Header with search box in drawing
 Widget headerWithSearchBox(context, {required Size size}) => Container(
       margin: const EdgeInsets.only(bottom: defaultPadding * 2.5),
       // It will cover 20% of our total height
@@ -111,7 +111,7 @@ Widget headerWithSearchBox(context, {required Size size}) => Container(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
-                Image.asset("assets/images/logo.png")
+                CircleAvatar(backgroundImage: AssetImage("assets/images/app-icon.png"), radius: 40.0)
               ],
             ),
           ),
@@ -159,6 +159,7 @@ Widget headerWithSearchBox(context, {required Size size}) => Container(
       ),
     );
 
+// d- Recommended items widget
 Widget recommendsPlants(context) => SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -182,8 +183,8 @@ Widget recommendsPlants(context) => SingleChildScrollView(
             context,
             image: "assets/images/image_2.png",
             title: "Angelica",
-            country: "Russia",
-            price: 440,
+            country: "Croatia",
+            price: 580,
             press: () {
               Navigator.push(
                 context,
@@ -193,22 +194,19 @@ Widget recommendsPlants(context) => SingleChildScrollView(
               );
             },
           ),
-          recommendPlantCard(
-            context,
-            image: "assets/images/image_3.png",
-            title: "Samantha",
-            country: "Russia",
-            price: 440,
-            press: () {},
-          ),
         ],
       ),
     );
 
-Widget recommendPlantCard(context,
-    {required String image, title, country,
-    required int price,
-    required Function press}) {
+// e- Recommended item card widget
+Widget recommendPlantCard(
+  context, {
+  required String image,
+  title,
+  country,
+  required int price,
+  required VoidCallback? press,
+}) {
   Size size = MediaQuery.of(context).size;
   return Container(
     margin: const EdgeInsets.only(
@@ -217,12 +215,13 @@ Widget recommendPlantCard(context,
       bottom: defaultPadding * 2.5,
     ),
     width: size.width * 0.4,
-    child: Column(
-      children: [
-        Image.asset(image),
-        GestureDetector(
-          onTap: press(),
-          child: Container(
+    child: MaterialButton(
+      onPressed: press,
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: [
+          Image.asset(image),
+          Container(
             padding: const EdgeInsets.all(defaultPadding / 2),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -232,7 +231,7 @@ Widget recommendPlantCard(context,
               ),
               boxShadow: [
                 BoxShadow(
-                  offset: Offset(0, 10),
+                  offset: const Offset(0, 10),
                   blurRadius: 50,
                   color: primaryColor.withOpacity(0.23),
                 ),
@@ -266,30 +265,29 @@ Widget recommendPlantCard(context,
               ],
             ),
           ),
-        )
-      ],
+        ],
+      ),
     ),
   );
 }
 
-Widget featuredPlants(context) => SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          featurePlantCard(
-            context,
-            image: "assets/images/bottom_img_1.png",
-            press: () {},
-          ),
-          featurePlantCard(
-            context,
-            image: "assets/images/bottom_img_2.png",
-            press: () {},
-          ),
-        ],
-      ),
-    );
+// f- Features Plants items widget
+Widget featuredPlants(context) => Row(
+  children: [
+    featurePlantCard(
+      context,
+      image: "assets/images/bottom_img_1.png",
+      press: () {},
+    ),
+    featurePlantCard(
+      context,
+      image: "assets/images/bottom_img_2.png",
+      press: () {},
+    ),
+  ],
+);
 
+// g- Features Plants item card widget
 Widget featurePlantCard(context,
     {required String image, required Function press}) {
   Size size = MediaQuery.of(context).size;
@@ -315,50 +313,51 @@ Widget featurePlantCard(context,
 }
 
 // widgets for Details Screen
-
-Widget buildDetailsBody(context){
-    Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Column(
+// a- Build details widget, it have: Image, Icons, Details, and buttons
+Widget buildDetailsBody(context) {
+  Size size = MediaQuery.of(context).size;
+  return Column(
+    children: [
+      imageAndIcons(context, size: size),
+      SizedBox(height: 5.0),
+      titleAndPrice(context,
+          title: "Angelica", country: "Russia", price: 440),
+      const SizedBox(height: 25.0),
+      Row(
         children: [
-          imageAndIcons(context, size: size),
-          titleAndPrice(context, title: "Angelica", country: "Russia", price: 440),
-          const SizedBox(height: defaultPadding),
-          Row(
-            children: [
-              SizedBox(
-                width: size.width / 2,
-                height: 84,
-                child: MaterialButton(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  color: primaryColor,
-                  onPressed: () {},
-                  child: const Text(
-                    "Buy Now",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
+          SizedBox(
+            width: size.width / 2,
+            height: 64,
+            child: MaterialButton(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20),
                 ),
               ),
-              Expanded(
-                child: MaterialButton(
-                  onPressed: () {},
-                  child: const Text("Description"),
+              color: primaryColor,
+              onPressed: () {},
+              child: const Text(
+                "Buy Now",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
                 ),
               ),
-            ],
+            ),
+          ),
+          Expanded(
+            child: MaterialButton(
+              onPressed: () {},
+              child: const Text("Description"),
+            ),
           ),
         ],
       ),
-    );
-  }
+    ],
+  );
+}
 
+// b- Details about planet
 Widget titleAndPrice(context,
         {required String title, country, required int price}) =>
     Padding(
@@ -398,64 +397,62 @@ Widget titleAndPrice(context,
       ),
     );
 
-Widget imageAndIcons(context, {required Size size}) => Padding(
-      padding: const EdgeInsets.only(bottom: defaultPadding * 3),
-      child: SizedBox(
-        height: size.height * 0.8,
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: defaultPadding * 3),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: defaultPadding),
-                        icon: SvgPicture.asset("assets/icons/back_arrow.svg"),
-                        onPressed: () {
-                          // Navigator.push(context, HomeScreen() as Route<Object?>);
-                        },
-                      ),
-                    ),
-                    const Spacer(),
-                    iconCard(context, icon: "assets/icons/sun.svg"),
-                    iconCard(context, icon: "assets/icons/icon_2.svg"),
-                    iconCard(context, icon: "assets/icons/icon_3.svg"),
-                    iconCard(context, icon: "assets/icons/icon_4.svg"),
-                  ],
+// c- Icons and image about planet
+Widget imageAndIcons(context, {required Size size}) => SizedBox(
+  height: size.height * 0.8,
+  child: Row(
+    children: [
+      Expanded(
+        child: Padding(
+          padding:
+              const EdgeInsets.symmetric(vertical: defaultPadding * 3),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPadding),
+                  icon: SvgPicture.asset("assets/icons/back_arrow.svg"),
+                  onPressed: () {},
                 ),
               ),
-            ),
-            Container(
-              height: size.height * 0.8,
-              width: size.width * 0.75,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(63),
-                  bottomLeft: Radius.circular(63),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(0, 10),
-                    blurRadius: 60,
-                    color: primaryColor.withOpacity(0.29),
-                  ),
-                ],
-                image: const DecorationImage(
-                  alignment: Alignment.centerLeft,
-                  fit: BoxFit.cover,
-                  image: AssetImage("assets/images/img.png"),
-                ),
-              ),
-            ),
-          ],
+              const Spacer(),
+              iconCard(context, icon: "assets/icons/sun.svg"),
+              iconCard(context, icon: "assets/icons/icon_2.svg"),
+              iconCard(context, icon: "assets/icons/icon_3.svg"),
+              iconCard(context, icon: "assets/icons/icon_4.svg"),
+            ],
+          ),
         ),
       ),
-    );
+      Container(
+        height: size.height * 0.8,
+        width: size.width * 0.75,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(63),
+            bottomLeft: Radius.circular(63),
+          ),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 10),
+              blurRadius: 60,
+              color: primaryColor.withOpacity(0.29),
+            ),
+          ],
+          image: const DecorationImage(
+            alignment: Alignment.centerLeft,
+            fit: BoxFit.cover,
+            image: AssetImage("assets/images/img.png"),
+          ),
+        ),
+      ),
+    ],
+  ),
+);
 
+// d- icons card with shadow for imageAndIcons widget
 Widget iconCard(context, {required String icon}) {
   Size size = MediaQuery.of(context).size;
   return Container(
@@ -465,7 +462,7 @@ Widget iconCard(context, {required String icon}) {
     width: 62,
     decoration: BoxDecoration(
       color: backgroundColor,
-      borderRadius: BorderRadius.circular(6),
+      borderRadius: BorderRadius.circular(20),
       boxShadow: [
         BoxShadow(
           offset: const Offset(0, 15),
@@ -475,7 +472,7 @@ Widget iconCard(context, {required String icon}) {
         const BoxShadow(
           offset: Offset(-15, -15),
           blurRadius: 20,
-          color: Colors.white,
+          color: Colors.black12,
         ),
       ],
     ),
